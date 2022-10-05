@@ -3,11 +3,36 @@ import argparse
 import json
 import webbrowser
 
-from helper_scripts import get_codeforces_by_rating, get_submission_codeforces
+from helper_scripts import get_codeforces_by_rating, get_submission_codeforces, check_init, write_file
 
 URL = "https://codeforces.com/api/"
 
+def initialize(args):
+    # Initialise Codehut
+    print("If you hzve initialized before, all data will be lost. Press Ctrl + C if you want to discontinue")
+    name = input("Name: ")
+    print("Complete path to be entered")
+    print(r"eg: C:\User\Docs\Folder\File.extension")
+    path = input("Path where source code is to be saved (default: codehut repository): ")
+    template = input("Path to code template (if any): ")
+    language = input("Extension of your programming Language (default: cpp): ")
+
+    while name == '':
+        print("\033[1;31mName is a required field. Press Ctrl + C if you wish to quit initializing...\033[0m")
+        name = input("Name: ")
+    
+    write_file(language, name, template, path)
+    print("\033[1;32mInitialization Complete")
+    print("Type \"codehut --help\" for help\033[0m")
+
+
 def connect_login(args):
+    # Check if user has innitialized
+    if not check_init():
+        print("\033[1;31mInitialize Codehut before continuing")
+        print("Type: codehut init\033[0m")
+        return
+
     # Verify user and add it to info.json file
     # Check if arguments are none
     if args.codeforces == None:
@@ -45,6 +70,12 @@ def connect_login(args):
                 outfile.write(data)
 
 def get_problem(args):
+    # Check if user has innitialized
+    if not check_init():
+        print("\033[1;31mInitialize Codehut before continuing")
+        print("Type: codehut init\033[0m")
+        return
+
     # Check the accounts has been logged in
     loggedIn = []
     file = open('info.json')
@@ -79,6 +110,12 @@ def get_problem(args):
     webbrowser.open(problem)
 
 def get_submission(args):
+    # Check if user has innitialized
+    if not check_init():
+        print("\033[1;31mInitialize Codehut before continuing")
+        print("Type: codehut init\033[0m")
+        return
+
     # get info from info.json
     file = open('info.json')
     data = json.load(file)
@@ -102,10 +139,45 @@ def get_submission(args):
     with open('info.json', 'w') as outfile:
         outfile.write(data)
 
+def update_info(args):
+    # check if already initialized
+    if not check_init():
+        print("\033[1;31mInitialize Codehut before continuing")
+        print("Type: codehut init\033[0m")
+        return
+
+    # get name from info.json
+    file = open('info.json')
+    data = json.load(file)
+    file.close()
+    # assign variables
+    language = args.language
+    path = args.path
+    template = args.template
+
+    if args.langauge == None:
+        language = data['init']['language']
+    if args.path == None:
+        path = data['init']['path']
+    if args.template == None:
+        template = data['init']['template']
+    write_file(language, data['init']['name'], template, path)
+    print("\033[1;32mUpdated!\033[0m")
+
 def main():
     parser = argparse.ArgumentParser(description="Competitve Programming Tool")
     # Create sub parsers for multiple possible arguments
     subparser = parser.add_subparsers(dest='command')
+
+    # Initializer
+    init = subparser.add_parser('init', help="Initialize")
+
+    # Update Path / Template / Language
+    update = subparser.add_parser('update', help="Update Path/Template/Language")
+    # optional arguments to change
+    update.add_argument('-up', '--path', type=str, help="Update Source File Path", metavar='')
+    update.add_argument('-ut', '--template', type=str, help="Update Template of Source Code", metavar='')
+    update.add_argument('-ul', '--language', type=str, help="Update Extension of Source Code", metavar='')
 
     # Login sub parser to login to Codeforces, CodeChef and AtCoder
     login = subparser.add_parser('login', help="Sync with Codeforces Account")
@@ -121,14 +193,23 @@ def main():
     # Submit sub parser to Submit codes
     submit = subparser.add_parser('submit', help="Submit the Code")
 
-    args = parser.parse_args()
+    # handle invalid argument SystemExit
+    try:
+        args = parser.parse_args()
+    except SystemExit:
+        print("\033[1;31mInvalid Arguments\033[0m")
 
-    if args.command == 'login':
+    if args.command == 'init':
+        initialize(args)
+    elif args.command == 'login':
         connect_login(args)
-    if args.command == 'problem':
+    elif args.command == 'problem':
         get_problem(args)
-    if args.command == 'submit':
+    elif args.command == 'submit':
         get_submission(args)
+        # Not complete
+    elif args.command == 'update':
+        update_info(args)
 
 if __name__ == "__main__":
     main()

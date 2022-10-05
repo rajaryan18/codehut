@@ -1,11 +1,8 @@
 {
-    "login": {
-        "codeforces": {
-            "handle": "RajAryan18",
-            "rating": 1006,
-            "rank": "newbie"
-        }
-    },
-    "questions": {},
-    "current": "problem1534"
+    "init": {
+        "name": "Raj",
+        "path": "C:\\Docs\\Python\\codehut\\codehut",
+        "template": null,
+        "language": "cpp"
+    }
 }

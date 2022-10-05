@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import random
+import json
+import pathlib, shutil
 
 def get_codeforces_by_rating(rating, tags):
     url = "https://codeforces.com/problemset?tags="
@@ -31,3 +33,43 @@ def get_submission_codeforces(submissions, problemID):
         if submission['problem']['contestId'] + submission['problem']['index'] == problemID:
             return submission['verdict']
     return None
+
+def write_file(language, name, template, path):
+    if language == '' or language == None:
+        language = 'cpp'
+
+    if path == '' or path == None:
+        path = str(pathlib.Path().absolute())
+
+    # Make the directory with the template
+    if template != '' or template != None:
+        shutil.copy(template, path + f"\code.{language}")
+    else:
+        file = open(path + f"\code.{language}", "w")
+        file.close()
+    
+    # Put all info into info.js
+    # overwrite all details as new initialization has been done
+    data = {
+        'init': {
+            'name': name,
+            'path': path,
+            'template': template or None,
+            'language': language
+        }
+    }
+    data = json.dumps(data, indent=4)
+    with open('info.json', 'w') as file:
+        file.write(data)
+
+def check_init():
+    # check if name field has a value. If not, return False
+    file = open('info.json')
+    data = json.load(file)
+    file.close()
+    if data['init']['name'] != None:
+        return True
+    return False
+
+def submit_codeforces(source, problemID, user):
+    pass

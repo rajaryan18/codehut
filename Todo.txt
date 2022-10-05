@@ -1,0 +1,7 @@
+-> Submit Solution on CF
+-> Get Contest list
+-> Run sample test cases
+-> Ask user for default location to make .cpp file (Done)
+-> Ask user for a default/template that they use (Done)
+-> start mock contest
+-> logout
