@@ -2,6 +2,7 @@ import requests
 import argparse
 import json
 import webbrowser
+from subprocess import call
 
 from helper_scripts import get_codeforces_by_rating, get_submission_codeforces, check_init, write_file
 
@@ -9,7 +10,7 @@ URL = "https://codeforces.com/api/"
 
 def initialize(args):
     # Initialise Codehut
-    print("If you hzve initialized before, all data will be lost. Press Ctrl + C if you want to discontinue")
+    print("If you have initialized before, all data will be lost. Press Ctrl + C if you want to discontinue")
     name = input("Name: ")
     print("Complete path to be entered")
     print(r"eg: C:\User\Docs\Folder\File.extension")
@@ -20,10 +21,11 @@ def initialize(args):
     while name == '':
         print("\033[1;31mName is a required field. Press Ctrl + C if you wish to quit initializing...\033[0m")
         name = input("Name: ")
-    
+
     write_file(language, name, template, path)
     print("\033[1;32mInitialization Complete")
     print("Type \"codehut --help\" for help\033[0m")
+    print("Use \033[1;35mVisual Studio Code\033[0m for best experience!")
 
 
 def connect_login(args):
@@ -58,7 +60,8 @@ def connect_login(args):
             file = open('info.json')
             data = json.load(file)
             # Set Codeforces Info
-            data['login']['codeforces'] = {
+            data["login"] = {}
+            data["login"]['codeforces'] = {
                 "handle": handle,
                 "rating": cfUser['result'][0]['rating'],
                 "rank": cfUser['result'][0]['rank']
@@ -100,14 +103,32 @@ def get_problem(args):
     # Add the problem as current problem
     file = open('info.json')
     data = json.load(file)
-    data['current'] = problem.split('/')[5] + problem.split('/')[6];
+    data['current'] = problem.split('/')[5] + problem.split('/')[6]
+    path = data['init']['path']
     file.close()
     data = json.dumps(data, indent=4)
     with open('info.json', 'w') as outfile:
         outfile.write(data)
 
+    try:
+        call(["code", path])
+    except:
+        print("\033[1;31mVisual Studio Code not installed. Please open the following folder in your code editor to write code\033[0m")
+        print("\033[1;33m" + path + "\033[0m")
+
+    print("Opening Web Browser with the problem")
     # open web browser with the url of the problem
     webbrowser.open(problem)
+
+
+def submit_codeforces(args):
+    # Check if user has innitialized
+    if not check_init():
+        print("\033[1;31mInitialize Codehut before continuing")
+        print("Type: codehut init\033[0m")
+        return
+
+        
 
 def get_submission(args):
     # Check if user has innitialized

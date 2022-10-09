@@ -1,8 +1,15 @@
 {
     "init": {
-        "name": "Raj",
-        "path": "C:\\Docs\\Python\\codehut\\codehut",
+        "name": "raj",
+        "path": "C:\\Docs\\Python\\codehut\\codehut\\Code",
         "template": null,
         "language": "cpp"
+    },
+    "login": {
+        "codeforces": {
+            "handle": "RajAryan18",
+            "rating": 992,
+            "rank": "newbie"
+        }
     }
 }

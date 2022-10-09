@@ -1,3 +1,4 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -39,10 +40,12 @@ def write_file(language, name, template, path):
         language = 'cpp'
 
     if path == '' or path == None:
-        path = str(pathlib.Path().absolute())
-
+        path = str(pathlib.Path().absolute()) + r"\Code"
+        if not os.path.exists(path):
+            os.mkdir(path)
+    print(template)
     # Make the directory with the template
-    if template != '' or template != None:
+    if template != '' and template != None:
         shutil.copy(template, path + f"\code.{language}")
     else:
         file = open(path + f"\code.{language}", "w")
