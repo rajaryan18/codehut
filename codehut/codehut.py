@@ -212,7 +212,7 @@ def main():
     problem.add_argument('-t', '--tags', type=str, help="Tage to Practice with comma -> (eg 'dp,greedy')", metavar='')
 
     # Submit sub parser to Submit codes
-    submit = subparser.add_parser('submit', help="Submit the Code")
+    submit = subparser.add_parser('submit', help="Code Submitted!")
 
     # handle invalid argument SystemExit
     try:

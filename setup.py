@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
-    install_requires=['opencv-python', 'beautifulsoup4', 'lxml', 'requests'],
+    install_requires=['opencv-python', 'bs4', 'lxml', 'requests', 'subprocess', 'os', 'random', 'json', 'shutil', 'pathlib', 'argparse', 'webbrowser'],
     keywords=['python', 'cli', 'competitive-programming', 'cp', 'codeforces', 'codechef', 'atcoder', 'cf', 'cc', 'codehut'],
     classifiers=[
         "Development Status :: Production",

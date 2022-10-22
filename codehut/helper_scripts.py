@@ -23,10 +23,10 @@ def get_codeforces_by_rating(rating, tags):
     soup = BeautifulSoup(ret, 'lxml')
     problems = soup.find('table', class_ = "problems")
     problems = soup.find_all('td', class_="id")
-    with open('soup.txt', 'a') as file:
-        ele = random.randint(0, len(problems)-1)
-        p = problems[ele].find('a')['href']
-        return "https://codeforces.com" + str(p)
+    # with open('soup.txt', 'a') as file:
+    ele = random.randint(0, len(problems)-1)
+    p = problems[ele].find('a')['href']
+    return "https://codeforces.com" + str(p)
 
 def get_submission_codeforces(submissions, problemID):
     # Loop over all submissions and find the one for this current problem
