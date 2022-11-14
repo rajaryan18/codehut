@@ -1,4 +1,6 @@
 Code/
-
+/build/
+/dist/
+.pypirc
 .env
 Todo.txt

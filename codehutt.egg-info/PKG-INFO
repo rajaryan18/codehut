@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: codehutt
+Version: 0.0.0
+Summary: Practice Competitive Programming directly from Terminal
+Author: Coffee Beans
+Author-email: 18raj06@gamil.com
+Keywords: python,cli,competitive-programming,cp,codeforces,codechef,atcoder,cf,cc,codehut
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Microsoft :: Windows
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+CLI to fetch questions and contests from Codeforces

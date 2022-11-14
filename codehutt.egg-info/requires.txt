@@ -1,0 +1,11 @@
+opencv-python
+bs4
+lxml
+requests
+subprocess
+os
+random
+json
+pytest-shutil
+pathlib
+argparse

@@ -1,0 +1,12 @@
+LICENSE
+README.md
+setup.py
+codehutt/__init__.py
+codehutt/codehutt.py
+codehutt/helper_scripts.py
+codehutt/test.py
+codehutt.egg-info/PKG-INFO
+codehutt.egg-info/SOURCES.txt
+codehutt.egg-info/dependency_links.txt
+codehutt.egg-info/requires.txt
+codehutt.egg-info/top_level.txt
